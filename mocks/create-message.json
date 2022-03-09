@@ -1,3 +1,10 @@
 {
-  "body": "{\"content\":\"api deu deploy\",\"receiver\":\"kikuchi@gmail.com\"}"
+  "body": "{\"content\":\"api deu deploy\",\"receiver\":\"kikuchi@gmail.com\"}",
+  "requestContext": {
+    "identity": {
+      "cognitoIdentityId": "USER-SUB-1234"
+    }
+  }
+
+
 }

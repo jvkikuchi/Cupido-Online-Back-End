@@ -6,7 +6,7 @@ export const editMessage = handler(async (event, context) => {
   const params = {
     TableName: process.env.tableName,
     Key: {
-      userId: "123",
+      userId: event.requestContext.identity.cognitoIdentityId,
       messageId: event.pathParameters.id,
     },
 

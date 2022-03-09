@@ -5,7 +5,7 @@ export const getMessage = handler(async (event, context) => {
   const params = {
     TableName: process.env.tableName,
     Key: {
-      userId: "123",
+      userId: event.requestContext.identity.cognitoIdentityId,
       messageId: event.pathParameters.id,
     },
   };
@@ -15,6 +15,6 @@ export const getMessage = handler(async (event, context) => {
     throw new Error("Item not found.");
   }
 
-  // Return the retrieved item
+  
   return result.Item;
 });

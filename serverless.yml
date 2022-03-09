@@ -8,6 +8,10 @@ plugins:
   - serverless-offline
   - serverless-dotenv-plugin 
 
+custom:
+  stage: ${opt:stage, self:provider.stage}
+  tableName: ${self:custom.stage}-notes
+
 provider:
   name: aws
   runtime: nodejs12.x
@@ -16,20 +20,22 @@ provider:
 
  
   environment:
-    tableName: messages
-
+    tableName: ${self:custom.tableName}
   
   iamRoleStatements:
     - Effect: Allow
       Action:
-        - dynamodb:Scan
+        - dynamodb:DescribeTable
         - dynamodb:Query
+        - dynamodb:Scan
         - dynamodb:GetItem
         - dynamodb:PutItem
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
-        - dynamodb:DescribeTable
-      Resource: "arn:aws:dynamodb:us-east-1:*:*"
+      # Restrict our IAM role permissions to
+      # the specific table for the stage
+      Resource:
+        - "Fn::GetAtt": [ MessagesTable, Arn ]
 
 functions:
   create:
@@ -39,6 +45,7 @@ functions:
           path: messages
           cors: true
           method: post
+          authorizer: aws_iam
 
   get: 
     handler: get.getMessage
@@ -47,6 +54,7 @@ functions:
           path: messages/{id}
           cors: true
           method: get
+          authorizer: aws_iam
   
   list:
     handler: list.listMessages
@@ -55,6 +63,7 @@ functions:
           path: messages
           cors: true
           method: get
+          authorizer: aws_iam
   
   update:
     handler: update.editMessage
@@ -63,6 +72,7 @@ functions:
           path: messages/{id}
           cors: true
           method: put
+          authorizer: aws_iam
 
   delete:
     handler: delete.deleteMessage
@@ -71,3 +81,15 @@ functions:
           path: messages/{id}
           cors: true
           method: delete
+          authorizer: aws_iam
+
+resources:
+  - ${file(resources/api-gateway-errors.yml)}
+  - ${file(resources/dynamodb-table.yml)}
+  - ${file(resources/s3-bucket.yml)}
+  - ${file(resources/cognito-user-pool.yml)}
+  - ${file(resources/cognito-identity-pool.yml)}
+  
+
+
+

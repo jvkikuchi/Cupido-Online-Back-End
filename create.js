@@ -7,7 +7,7 @@ export const newMessage = handler(async (event, context) => {
   const params = {
     TableName: process.env.tableName,
     Item: {
-      userId: "123",
+      userId: event.requestContext.identity.cognitoIdentityId,
       messageId: uuid.v4(),
       content: data.content,
       createdDate: Date.now(),
