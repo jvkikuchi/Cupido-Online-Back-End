@@ -10,7 +10,7 @@ plugins:
 
 custom:
   stage: ${opt:stage, self:provider.stage}
-  tableName: ${self:custom.stage}-notes
+  tableName: ${self:service}-messages
 
 provider:
   name: aws
@@ -87,6 +87,7 @@ functions:
     events:
       - http:
           path: email
+          cors: true
           method: post
           authorizer: aws_iam
 

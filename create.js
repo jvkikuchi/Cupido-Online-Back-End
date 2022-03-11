@@ -1,6 +1,7 @@
 import * as uuid from "uuid";
 import handler from "./libs/handler-lib";
 import dynamoDb from "./libs/dynamodb-lib";
+import { responseLambda } from "./utils/responseLambda";
 
 export const newMessage = handler(async (event, context) => {
   const data = JSON.parse(event.body);
@@ -17,5 +18,5 @@ export const newMessage = handler(async (event, context) => {
 
   await dynamoDb.put(params);
 
-  return params.Item;
+  return responseLambda(params.item);
 });
