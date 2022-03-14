@@ -1,29 +1,47 @@
-import handler from "../../libs/handler-lib";
-import nodemailer from "nodemailer";
-import { responseLambda } from "../../utils/responseLambda";
-
-export const  sendEmail = handler(async (event, context) => {
-  const { receiver, content } =
-    typeof event.body === "string" ? JSON.parse(event.body) : event.body;
-
-  const transporter = nodemailer.createTransport({
-    service: "gmail",
-    auth: {
-      user: "desafiocupidobgc@gmail.com",
-      pass: "cupido123*",
-    },
-    tls: {
-      rejectUnauthorized: false,
-    },
-  });
-
-  const emailHTML = `
-  <html>
+<html>
   <head> 
     <link href="https://fonts.googleapis.com/css2?family=Sansita+Swashed&display=swap" rel="stylesheet"> 
     <link rel="preconnect" href="https://fonts.googleapis.com"> 
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Fredoka:wght@300&display=swap" rel="stylesheet">
+
+    <style>
+    #pulsingheart {
+      position: relative;
+      animation:pulse 1s infinite;
+      width: 100px; 
+      height: 90px;
+    } 
+    
+    #pulsingheart:before, #pulsingheart:after { 
+      position: absolute; 
+      content: ""; 
+      left: 50px; 
+      top: 0; 
+      width: 50px; 
+      height: 80px; 
+      background: #aa0000; 
+      border-radius: 50px 50px 0 0; 
+      transform: rotate(-45deg);  
+      transform-origin: 0 100%;
+      animation:pulsecolor 1s infinite;
+    } 
+    
+    #pulsingheart:after { 
+      left: 0; 
+      transform: rotate(45deg); 
+      transform-origin :100% 100%;
+      animation:pulsecolor 1s infinite;
+    }
+    
+    @keyframes pulse {
+      10% {transform: scale(1.1)}
+    }
+    
+    @keyframes pulsecolor {
+      10% {background: #dd0000}
+    }
+    </style>
   </head> 
     <body style="color: black; background-color: white">
       <div style="padding: 30px; text-align: center;">
@@ -57,6 +75,9 @@ export const  sendEmail = handler(async (event, context) => {
                Olá, seu crush lhe enviou uma pensagem pelo Cupido Online!
             </p>
              
+            <div className="heartContainer">
+              <div id="pulsingheart"></div>
+            </div>
             
             <center style="
             background-color: whitesmoke;
@@ -70,6 +91,7 @@ export const  sendEmail = handler(async (event, context) => {
             font-size: 1.5rem;
             margin-top: 1em;
             ">${content}</center>
+            
             <br />
             <br />
             <span style="font-size: 18px;  font-family: Fredoka, sans-serif;">
@@ -82,14 +104,3 @@ export const  sendEmail = handler(async (event, context) => {
       </div>
     </body>
   </html>
-  `;
-
-  const emailSent = await transporter.sendMail({
-    from: "Cupido Online <desafiocupidobgc@gmail.com>",
-    to: receiver,
-    subject: "Alguem tem um crush em voce!",
-    html: emailHTML,
-  });
-
-  return responseLambda(emailSent);
-});
