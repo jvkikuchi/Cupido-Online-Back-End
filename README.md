@@ -1,6 +1,6 @@
 # Culpido Online
 
-Aplicação criada para o Desafio da BGC.
+Backend da aplicação criada para o Desafio da BGC.
 
 # Tecnologias Utilizadas
 
