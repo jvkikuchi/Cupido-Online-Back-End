@@ -1,0 +1,8 @@
+list:
+  handler: ./functions/list/list.listMessages
+  events:
+    - http:
+        path: messages
+        cors: true
+        method: get
+        authorizer: aws_iam

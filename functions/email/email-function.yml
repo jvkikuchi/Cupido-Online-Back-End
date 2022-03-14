@@ -1,0 +1,8 @@
+email:
+  handler: ./functions/email/email.sendEmail
+  events:
+    - http:
+        path: email
+        cors: true
+        method: post
+        authorizer: aws_iam

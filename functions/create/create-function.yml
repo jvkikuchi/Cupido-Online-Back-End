@@ -1,0 +1,8 @@
+create:
+  handler: ./functions/create/create.newMessage
+  events:
+    - http:
+        path: messages
+        cors: true
+        method: post
+        authorizer: aws_iam

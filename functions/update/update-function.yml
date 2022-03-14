@@ -1,0 +1,8 @@
+update:
+  handler: ./functions/update/update.editMessage
+  events:
+    - http:
+        path: messages/{id}
+        cors: true
+        method: put
+        authorizer: aws_iam

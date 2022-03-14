@@ -1,0 +1,8 @@
+get: 
+  handler: ./functions/get/get.getMessage
+  events:
+    - http:
+        path: messages/{id}
+        cors: true
+        method: get
+        authorizer: aws_iam

@@ -1,0 +1,8 @@
+delete:
+  handler: ./functions/delete/delete.deleteMessage
+  events:
+    - http:
+        path: messages/{id}
+        cors: true
+        method: delete
+        authorizer: aws_iam

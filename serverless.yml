@@ -37,61 +37,14 @@ provider:
         - "Fn::GetAtt": [ MessagesTable, Arn ]
 
 functions:
-  create:
-    handler: create.newMessage
-    events:
-      - http:
-          path: messages
-          cors: true
-          method: post
-          authorizer: aws_iam
+  - ${file(functions/create/create-function.yml)}
+  - ${file(functions/delete/delete-function.yml)}
+  - ${file(functions/email/email-function.yml)}
+  - ${file(functions/get/get-function.yml)}
+  - ${file(functions/list/list-function.yml)}
+  - ${file(functions/update/update-function.yml)}
 
-  get: 
-    handler: get.getMessage
-    events:
-      - http:
-          path: messages/{id}
-          cors: true
-          method: get
-          authorizer: aws_iam
-  
-  list:
-    handler: list.listMessages
-    events:
-      - http:
-          path: messages
-          cors: true
-          method: get
-          authorizer: aws_iam
-  
-  update:
-    handler: update.editMessage
-    events:
-      - http:
-          path: messages/{id}
-          cors: true
-          method: put
-          authorizer: aws_iam
-
-  delete:
-    handler: delete.deleteMessage
-    events:
-      - http:
-          path: messages/{id}
-          cors: true
-          method: delete
-          authorizer: aws_iam
-
-  email:
-    handler: email.sendEmail
-    events:
-      - http:
-          path: email
-          cors: true
-          method: post
-          authorizer: aws_iam
-
-resources:
+resources: 
   - ${file(resources/api-gateway-errors.yml)}
   - ${file(resources/dynamodb-table.yml)}
   - ${file(resources/s3-bucket.yml)}
