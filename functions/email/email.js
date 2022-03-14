@@ -54,10 +54,9 @@ export const  sendEmail = handler(async (event, context) => {
               font-family: Fredoka, sans-serif;
               font-weight: bold;
             ">
-               Olá, seu crush lhe enviou uma pensagem pelo Cupido Online!
+               Olá, seu crush lhe enviou uma mensagem pelo Cupido Online!
             </p>
-             
-            
+      
             <center style="
             background-color: whitesmoke;
             width: fit-content;
